@@ -31,8 +31,43 @@ class API
      * @param $cardType
      * @return bool|mixed
      */
-    public function CreateShopperVault($firstname, $lastname, $encryptedCreditCard, $encryptedCVV, $cardExpireYear, $cardExpireMonth, $currency, $cardType){
-        $response = APICall::call('vaulted-shoppers', [
+    public function createShopperVault($firstname, $lastname, $encryptedCreditCard, $encryptedCVV, $cardExpireYear, $cardExpireMonth, $currency, $cardType){
+        $response = APICall::call('vaulted-shoppers', 'POST', [
+            'paymentSources' => [
+                'creditCardInfo' => [
+                    0 => [
+                        'creditCard' => [
+                            'expirationYear' => $cardExpireYear,
+                            'expirationMonth' => $cardExpireMonth,
+                            'encryptedCardNumber' => $encryptedCreditCard,
+                            'encryptedSecurityCode' => $encryptedCVV,
+                            'cardType' => $cardType
+                        ]
+                    ]
+                ]
+            ],
+            'firstName' => $firstname,
+            'lastName' => $lastname,
+            'shopperCurrency' => $currency
+        ]);
+        return $response;
+    }
+
+    /**
+     *
+     * @param $shopper_id
+     * @param $firstname
+     * @param $lastname
+     * @param $encryptedCreditCard
+     * @param $encryptedCVV
+     * @param $cardExpireYear
+     * @param $cardExpireMonth
+     * @param $currency
+     * @param $cardType
+     * @return bool|mixed
+     */
+    public function updateShopperVault($shopper_id, $firstname, $lastname, $encryptedCreditCard, $encryptedCVV, $cardExpireYear, $cardExpireMonth, $currency, $cardType){
+        $response = APICall::call('vaulted-shoppers/'.$shopper_id, 'PUT', [
             'paymentSources' => [
                 'creditCardInfo' => [
                     0 => [
@@ -63,7 +98,7 @@ class API
      * @param string $transactionType
      * @return array
      */
-    public function Authorize($shopper_id, $amount, $currency, $recurringTransaction = 'RECURRING', $softDescriptor = 'Shopper Charge', $transactionType = 'AUTH_CAPTURE'){
+    public function authorize($shopper_id, $amount, $currency, $recurringTransaction = 'RECURRING', $softDescriptor = 'Shopper Charge', $transactionType = 'AUTH_CAPTURE'){
         $data = [
             'amount' => $amount,
             'vaultedShopperId' => $shopper_id,
@@ -72,7 +107,7 @@ class API
             'currency' => $currency,
             'cardTransactionType' => $transactionType
         ];
-        $response = APICall::call('transactions', $data);
+        $response = APICall::call('transactions', 'POST', $data);
         return $response;
     }
 

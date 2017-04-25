@@ -7,9 +7,10 @@ class APICall {
     public static $username = '';
     public static $password = '';
 
-    public static function call($endpoint, $data){
+    public static function call($endpoint, $method, $data){
         $url = rtrim(self::$url, "/").'/'.$endpoint;
         $ch = curl_init();
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_USERPWD, self::$username . ":" . self::$password);
