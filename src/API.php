@@ -1,5 +1,5 @@
 <?php
-namespace EMGroup\Bluesnap;
+namespace EMGroup\BlueSnap;
 
 class API
 {
