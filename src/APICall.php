@@ -18,14 +18,16 @@ class APICall {
      * @param $data
      * @return bool|mixed
      */
-    public static function call($endpoint, $method, $data){
+    public static function call($endpoint, $method, $data = null){
         $url = rtrim(self::$url, "/").'/'.$endpoint;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_USERPWD, self::$username . ":" . self::$password);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        if($data){
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        }
         curl_setopt($ch, CURLOPT_HEADER, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(

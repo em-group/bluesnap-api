@@ -9,7 +9,7 @@ namespace EMGroup\BlueSnap;
 class APIResponse
 {
 
-    public $responseCode = 200;
+    public $responseCode = null;
     public $headers;
     public $body;
 
@@ -19,7 +19,7 @@ class APIResponse
      * @param $headers
      * @param int $responseCode
      */
-    public function __construct($body, $headers, $responseCode = 200)
+    public function __construct($body, $headers, $responseCode = null)
     {
         $this->setBody($body);
         $this->setHeaders($headers);

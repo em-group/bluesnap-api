@@ -54,7 +54,7 @@ class API
     }
 
     /**
-     *
+     * update shopper vauilt with new creditcard information
      * @param $shopper_id
      * @param $firstname
      * @param $lastname
@@ -89,7 +89,7 @@ class API
     }
 
     /**
-     * Charges amount on shopper ID
+     * charges amount on saved vault shopper
      * @param $shopper_id
      * @param $amount
      * @param $currency
@@ -112,6 +112,21 @@ class API
     }
 
     /**
+     * refund a transaction
+     * @param $transaction_id
+     * @param null $amount
+     * @param null $reason
+     * @return bool|mixed
+     */
+    public function refund($transaction_id, $amount = null, $reason = null){
+        $endpoint = 'transactions/'.$transaction_id.'/refund?';
+        if ($amount) $endpoint .= '&amount='.$amount;
+        if ($reason) $endpoint .= '&reason='.urlencode($reason);
+        return APICall::call($endpoint, 'PUT');
+    }
+
+    /**
+     * returns latest Response object
      * @return APIResponse|null
      */
     public function getLastResponse(){
