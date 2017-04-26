@@ -5,13 +5,15 @@ namespace EMGroup\BlueSnap;
 class APIResponse
 {
 
+    public $responseCode = 200;
     public $headers;
     public $body;
 
-    public function __construct($body, $headers)
+    public function __construct($body, $headers, $responseCode = 200)
     {
         $this->setBody($body);
         $this->setHeaders($headers);
+        $this->responseCode = $responseCode;
     }
 
     /**
@@ -28,10 +30,12 @@ class APIResponse
     public function setHeaders($headers)
     {
         foreach(explode(PHP_EOL, $headers) as $header){
-            $v = explode(':', $header, 2);
-            $header_var = isset($v[0]) ? $v[0] : 'no-var';
-            $header_val = isset($v[1]) ? $v[1] : 'no-val';
-            $this->headers[trim($header_var)] = trim($header_val);
+            if (strpos($header, ':') !== false){
+                $v = explode(':', $header, 2);
+                $header_var = isset($v[0]) ? $v[0] : null;
+                $header_val = isset($v[1]) ? $v[1] : null;
+                $this->headers[trim($header_var)] = trim($header_val);
+            }
         }
     }
 

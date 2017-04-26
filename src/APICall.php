@@ -28,8 +28,9 @@ class APICall {
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $header = substr($response, 0, $header_size);
         $body = substr($response, $header_size);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        self::$last_response = new APIResponse($body, $header);
+        self::$last_response = new APIResponse($body, $header, $httpcode);
 
         curl_close ($ch);
         if (substr($body,0,1) !== '{'){
