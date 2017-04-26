@@ -28,7 +28,9 @@ class APIResponse
     public function setHeaders($headers)
     {
         foreach(explode(PHP_EOL, $headers) as $header){
-            list($header_var, $header_val) = explode(':', $header, 2);
+            $v = explode(':', $header, 2);
+            $header_var = isset($v[0]) ? $v[0] : 'no-var';
+            $header_val = isset($v[1]) ? $v[1] : 'no-val';
             $this->headers[trim($header_var)] = trim($header_val);
         }
     }

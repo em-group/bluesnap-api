@@ -32,10 +32,10 @@ class APICall {
         self::$last_response = new APIResponse($body, $header);
 
         curl_close ($ch);
-        if (substr($response,0,1) !== '{'){
+        if (substr($body,0,1) !== '{'){
             return false;
         }else{
-            return json_decode($response);
+            return json_decode($body);
         }
     }
 
