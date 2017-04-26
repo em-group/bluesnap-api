@@ -44,10 +44,14 @@ class APICall {
         self::$last_response = new APIResponse($body, $header, $httpcode);
 
         curl_close ($ch);
-        if (substr($body,0,1) !== '{'){
-            return false;
+        if (intval($httpcode) === 204){
+            return true;
         }else{
-            return json_decode($body);
+            if (substr($body,0,1) !== '{'){
+                return false;
+            }else{
+                return json_decode($body);
+            }
         }
     }
 
