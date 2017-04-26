@@ -111,6 +111,9 @@ class API
         return $response;
     }
 
+    /**
+     * @return APIResponse|null
+     */
     public function getLastResponse(){
         return APICall::$last_response;
     }

@@ -2,6 +2,10 @@
 
 namespace EMGroup\BlueSnap;
 
+/**
+ * Class APIResponse
+ * @package EMGroup\BlueSnap
+ */
 class APIResponse
 {
 
@@ -9,6 +13,12 @@ class APIResponse
     public $headers;
     public $body;
 
+    /**
+     * APIResponse constructor.
+     * @param $body
+     * @param $headers
+     * @param int $responseCode
+     */
     public function __construct($body, $headers, $responseCode = 200)
     {
         $this->setBody($body);
@@ -39,6 +49,10 @@ class APIResponse
         }
     }
 
+    /**
+     * @param $key
+     * @return null
+     */
     public function getHeader($key){
         if (isset($this->headers[$key])){
             return $this->headers[$key];

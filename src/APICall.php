@@ -7,8 +7,17 @@ class APICall {
     public static $username = '';
     public static $password = '';
 
+    /**
+     * @var null|APIResponse
+     */
     public static $last_response = null;
 
+    /**
+     * @param $endpoint
+     * @param $method
+     * @param $data
+     * @return bool|mixed
+     */
     public static function call($endpoint, $method, $data){
         $url = rtrim(self::$url, "/").'/'.$endpoint;
         $ch = curl_init();
