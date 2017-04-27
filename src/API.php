@@ -102,15 +102,17 @@ class API
      * @param string $transactionType
      * @return array
      */
-    public function authorize($shopper_id, $amount, $currency, $recurringTransaction = 'RECURRING', $softDescriptor = 'Shopper Charge', $transactionType = 'AUTH_CAPTURE'){
+    public function authorize($shopper_id, $amount, $currency, $recurringTransaction = 'RECURRING', $softDescriptor = null, $transactionType = 'AUTH_CAPTURE'){
         $data = [
             'amount' => $amount,
             'vaultedShopperId' => $shopper_id,
             'recurringTransaction' => $recurringTransaction,
-            'softDescriptor' => $softDescriptor,
             'currency' => $currency,
             'cardTransactionType' => $transactionType
         ];
+        if ($softDescriptor){
+            $data['softDescriptor'] = $softDescriptor;
+        }
         $response = APICall::call('transactions', 'POST', $data);
         return $response;
     }
