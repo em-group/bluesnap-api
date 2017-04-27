@@ -29,10 +29,11 @@ class API
      * @param $cardExpireMonth
      * @param $currency
      * @param $cardType
+     * @param array $additional
      * @return bool|mixed
      */
-    public function createShopperVault($firstname, $lastname, $encryptedCreditCard, $encryptedCVV, $cardExpireYear, $cardExpireMonth, $currency, $cardType){
-        $response = APICall::call('vaulted-shoppers', 'POST', [
+    public function createShopperVault($firstname, $lastname, $encryptedCreditCard, $encryptedCVV, $cardExpireYear, $cardExpireMonth, $currency, $cardType, $additional = []){
+        $data = array_merge([
             'paymentSources' => [
                 'creditCardInfo' => [
                     0 => [
@@ -49,12 +50,13 @@ class API
             'firstName' => $firstname,
             'lastName' => $lastname,
             'shopperCurrency' => $currency
-        ]);
+        ], $additional);
+        $response = APICall::call('vaulted-shoppers', 'POST', $data);
         return $response;
     }
 
     /**
-     * update shopper vauilt with new creditcard information
+     * update shopper vault with new creditcard information
      * @param $shopper_id
      * @param $firstname
      * @param $lastname
@@ -64,10 +66,11 @@ class API
      * @param $cardExpireMonth
      * @param $currency
      * @param $cardType
+     * @param array $additional
      * @return bool|mixed
      */
-    public function updateShopperVault($shopper_id, $firstname, $lastname, $encryptedCreditCard, $encryptedCVV, $cardExpireYear, $cardExpireMonth, $currency, $cardType){
-        $response = APICall::call('vaulted-shoppers/'.$shopper_id, 'PUT', [
+    public function updateShopperVault($shopper_id, $firstname, $lastname, $encryptedCreditCard, $encryptedCVV, $cardExpireYear, $cardExpireMonth, $currency, $cardType, $additional = []){
+        $data = array_merge([
             'paymentSources' => [
                 'creditCardInfo' => [
                     0 => [
@@ -84,7 +87,8 @@ class API
             'firstName' => $firstname,
             'lastName' => $lastname,
             'shopperCurrency' => $currency
-        ]);
+        ], $additional);
+        $response = APICall::call('vaulted-shoppers/'.$shopper_id, 'PUT', $data);
         return $response;
     }
 
